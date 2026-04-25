@@ -6,3 +6,34 @@ git config-- local user name "Juan Sanchez"
 
 git config -- local user Gmail "sanchezkillmaster@gmail.com"
 (configura al Gmail del usuario asociado a la cuenta GitHub)
+
+git branch -M main 
+(cambiar el nombre de la rama de master a main) 
+
+git add .
+(añade todos los archivos al repositorio)
+
+git commit -m "version de subida"
+(es la versión que usted esta subiendo al repo) 
+
+git push -u origin main 
+(este empuja los cambios locales a la nube)
+
+git status 
+(comprueba el estado de la rama)
+
+git remote add origin 
+git remote add origin https://github.com/sanchezkillmaster-cell/oaa.git
+(añade la dirección de su repositorio se hace o se ejecuta una unica vez).
+
+
+
+
+
+
+
+
+
+
+
+
