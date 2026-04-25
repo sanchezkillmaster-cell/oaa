@@ -1,0 +1,8 @@
+git init 
+(sirve para iniciar el repositorio local)
+
+git config-- local user name "Juan Sanchez"
+(esto configura al nombre del usuario localmente)
+
+git config -- local user Gmail "sanchezkillmaster@gmail.com"
+(configura al Gmail del usuario asociado a la cuenta GitHub)
