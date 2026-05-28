@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo Guardable - Green & Blue</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            padding: 30px 10px;
+            color: #2b5e35; /* Verde corporativo */
+        }
+
+        .recibo-container {
+            background-color: #ffffff;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 25px;
+            border: 1px solid #1a5ca3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        /* Botón de Guardar / Imprimir */
+        .botones-accion {
+            max-width: 850px;
+            margin: 0 auto 15px auto;
+            text-align: right;
+        }
+
+        .btn-guardar {
+            background-color: #2b5e35;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: background 0.2s;
+        }
+
+        .btn-guardar:hover {
+            background-color: #1e4425;
+        }
+
+        /* --- ENCABEZADO --- */
+        .header-superior {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .logo-area { flex: 1; }
+
+        .logo-main {
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            color: #2b5e35;
+        }
+        .logo-main span { color: #1a5ca3; }
+
+        .logo-sub {
+            font-size: 15px;
+            letter-spacing: 3px;
+            font-weight: bold;
+            margin-top: -3px;
+        }
+
+        .logo-slogan {
+            font-size: 9px;
+            color: #1a5ca3;
+            margin-top: 4px;
+        }
+
+        .servicios-top {
+            flex: 2;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            padding-top: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 13px;
+            height: 13px;
+            border: 1px solid #1a5ca3;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+            background: #fff;
+        }
+        .checkbox-group input[type="checkbox"]:checked {
+            background-color: #1a5ca3;
+            position: relative;
+        }
+        .checkbox-group input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: white;
+            font-size: 10px;
+            position: absolute;
+            top: -2px;
+            left: 1px;
+        }
+
+        .contacto-tel {
+            color: #1a5ca3;
+            font-size: 11px;
+        }
+
+        .recibo-badge {
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: #2b5e35;
+            padding-right: 5px;
+        }
+
+        /* --- FILA INTERMEDIA DE FECHAS Y NÚMERO --- */
+        .header-inferior {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 25px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+
+        .fechas-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+
+        .bloque-fecha {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .casillas-fecha { display: flex; }
+
+        .casillas-fecha input {
+            width: 24px;
+            height: 22px;
+            border: 1px solid #1a5ca3;
+            border-right: none;
+            text-align: center;
+            font-size: 12px;
+            outline: none;
+            color: #333;
+        }
+        .casillas-fecha input:last-child { border-right: 1px solid #1a5ca3; }
+        .casillas-fecha input:focus { background-color: #e8f0fe; }
+
+        .numero-box {
+            border: 1px solid #1a5ca3;
+            padding: 4px 20px;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: #fff;
+        }
+        .numero-box span {
+            color: #b71c1c;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        /* --- FORMULARIO DE CLIENTE --- */
+        .linea-input {
+            border: none;
+            border-bottom: 1px solid #1a5ca3;
+            color: #333;
+            font-size: 14px;
+            padding: 2px 4px;
+            outline: none;
+            background: transparent;
+            width: 100%;
+        }
+        .linea-input:focus { background-color: #f4f8ff; }
+
+        .row-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .item-form {
+            display: flex;
+            align-items: flex-end;
+            white-space: nowrap;
+        }
+
+        /* --- TABLA PRINCIPAL --- */
+        .tabla-recibo {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #1a5ca3;
+        }
+
+        .tabla-recibo th {
+            border: 1px solid #1a5ca3;
+            padding: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            background: #fff;
+        }
+
+        .tabla-recibo td {
+            border: 1px solid #1a5ca3;
+            vertical-align: top;
+        }
+
+        .col-desc { width: 78%; }
+        .col-val { width: 22%; }
+
+        .textarea-desc {
+            width: 100%;
+            height: 160px;
+            border: none;
+            resize: none;
+            padding: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            outline: none;
+            background: transparent;
+        }
+
+        .textarea-val {
+            width: 100%;
+            height: 160px;
+            border: none;
+            resize: none;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: right;
+            outline: none;
+            background: transparent;
+        }
+
+        .observaciones-row td {
+            padding: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .textarea-obs {
+            width: 100%;
+            height: 45px;
+            border: none;
+            resize: none;
+            margin-top: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            outline: none;
+            background: transparent;
+        }
+
+        .total-row td {
+            padding: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        .total-label { text-align: right; padding-right: 15px !important; }
+
+        .total-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-total {
+            width: 85%;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            outline: none;
+            background: transparent;
+        }
+
+        /* --- FIRMAS --- */
+        .firmas-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+
+        .bloque-firma {
+            width: 230px;
+            text-align: center;
+        }
+
+        .linea-firma {
+            border-top: 1px solid #1a5ca3;
+            padding-top: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Ocultar botones en la impresión final */
+        @media print {
+            body { background-color: #fff; padding: 0; }
+            .botones-accion { display: none; }
+            .recibo-container { border: none; box-shadow: none; padding: 0; }
+            .linea-input:focus, .textarea-desc:focus, .textarea-val:focus { background-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Panel de acciones superior -->
+<div class="botones-accion">
+    <button class="btn-guardar" onclick="guardarDocumento()">💾 Guardar Recibo (PDF)</button>
+</div>
+
+<div class="recibo-container" id="recibo-completo">
+    
+    <!-- Parte Superior del Encabezado -->
+    <div class="header-superior">
+        <div class="logo-area">
+            <div class="logo-main">GREEN <span>&</span> BLUE</div>
+            <div class="logo-sub">aquamarine</div>
+            <div class="logo-slogan">Efecto y prevención en la funcionalidad física</div>
+        </div>
+
+        <div class="servicios-top">
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="check-rehab"> REHABILITACIÓN</label>
+                <label><input type="checkbox" id="check-entre"> ENTRETENIMIENTO</label>
+                <label><input type="checkbox" id="check-masaje"> MASAJES</label>
+                <label><input type="checkbox" id="check-nata"> NATACIÓN</label>
+            </div>
+            <div class="contacto-tel">
+                💬 318 868 8008 / 310 740 6038
+            </div>
+        </div>
+
+        <div class="recibo-badge">RECIBO</div>
+    </div>
+
+    <!-- Parte Inferior del Encabezado (Fechas y Número) -->
+    <div class="header-inferior">
+        <div class="fechas-wrapper">
+            <div class="bloque-fecha">
+                <div>Fecha<br>Inicio</div>
+                <div class="casillas-fecha">
+                    <input type="text" maxlength="2" id="fi-d">
+                    <input type="text" maxlength="2" id="fi-m">
+                    <input type="text" maxlength="2" id="fi-a">
+                </div>
+            </div>
+            <div class="bloque-fecha">
+                <div>Fecha<br>Finalización</div>
+                <div class="casillas-fecha">
+                    <input type="text" maxlength="2" id="ff-d">
+                    <input type="text" maxlength="2" id="ff-m">
+                    <input type="text" maxlength="2" id="ff-a">
+                </div>
+            </div>
+        </div>
+
+        <div class="numero-box">
+            No <span>0483</span>
+        </div>
+    </div>
+
+    <!-- Datos del Cliente -->
+    <div class="datos-cliente">
+        <div class="row-form">
+            <div class="item-form" style="flex: 7;">
+                <label>Señor (es):</label>
+                <input type="text" class="linea-input" id="c-nombre">
+            </div>
+            <div class="item-form" style="flex: 5;">
+                <label>Dirección:</label>
+                <input type="text" class="linea-input" id="c-dir">
+            </div>
+        </div>
+
+        <div class="row-form">
+            <div class="item-form" style="flex: 3;">
+                <label>Teléfono:</label>
+                <input type="text" class="linea-input" id="c-tel">
+            </div>
+            <div class="item-form" style="flex: 3;">
+                <label>Ciudad:</label>
+                <input type="text" class="linea-input" id="c-ciudad">
+            </div>
+            <div class="item-form" style="flex: 1.5;">
+                <label>Edad:</label>
+                <input type="text" class="linea-input" id="c-edad">
+            </div>
+            <div class="item-form" style="flex: 1.5;">
+                <label>Peso:</label>
+                <input type="text" class="linea-input" id="c-peso">
+            </div>
+            <div class="item-form" style="flex: 1.5;">
+                <label>Talla:</label>
+                <input type="text" class="linea-input" id="c-talla">
+            </div>
+            <div class="item-form" style="flex: 1.5;">
+                <label>PPL:</label>
+                <input type="text" class="linea-input" id="c-ppl">
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Contenido -->
+    <table class="tabla-recibo">
+        <thead>
+            <tr>
+                <th class="col-desc">DESCRIPCIÓN</th>
+                <th class="col-val">VR. TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><textarea class="textarea-desc" id="t-desc" placeholder="Escriba la descripción aquí..."></textarea></td>
+                <td><textarea class="textarea-val" id="t-val" placeholder="$"></textarea></td>
+            </tr>
+            <tr class="observaciones-row">
+                <td colspan="2">
+                    OBSERVACIONES
+                    <textarea class="textarea-obs" id="t-obs"></textarea>
+                </td>
+            </tr>
+            <tr class="total-row">
+                <td class="total-label">TOTAL</td>
+                <td>
+                    <div class="total-input-wrapper">
+                        $ <input type="text" class="input-total" id="t-total">
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Firmas -->
+    <div class="firmas-container">
+        <div class="bloque-firma">
+            <div class="linea-firma">FIRMA DEL INSTRUCTOR</div>
+        </div>
+        <div class="bloque-firma">
+            <div class="linea-firma">FIRMA DEL USUARIO</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    function guardarDocumento() {
+        window.print();
+    }
+
+
+    const inputs = document.querySelectorAll('input, textarea');
+    
+
+    window.addEventListener('load', () => {
+        inputs.forEach(input => {
+            const savedValue = localStorage.getItem(input.id);
+            if (savedValue !== null) {
+                if (input.type === 'checkbox') {
+                    input.checked = savedValue === 'true';
+                } else {
+                    input.value = savedValue;
+                }
+            }
+        });
+    });
+
+
+    inputs.forEach(input => {
+        if(input.id) {
+            input.addEventListener('input', () => {
+                if (input.type === 'checkbox') {
+                    localStorage.setItem(input.id, input.checked);
+                } else {
+                    localStorage.setItem(input.id, input.value);
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
